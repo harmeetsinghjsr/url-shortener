@@ -11,7 +11,7 @@ export default function RedirectHandler() {
     const record = urlMap.get(shortcode!);
 
     if (!record) {
-logger(`Invalid shortcode access: ${shortcode}`, 'error');
+      logger(`Invalid shortcode access: ${shortcode}`, 'error');
       alert('Shortcode not found.');
       navigate('/');
       return;
@@ -27,7 +27,7 @@ logger(`Invalid shortcode access: ${shortcode}`, 'error');
     record.hits += 1;
     logger(`Redirected to: ${record.longURL}`, 'info');
     window.location.href = record.longURL;
-  }, [shortcode]);
+  }, [shortcode, navigate]);
 
   return <p>Redirecting...</p>;
 }

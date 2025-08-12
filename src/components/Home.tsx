@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import {
-  Box, Typography, TextField, Button, Grid, Alert
+  Box, Typography, TextField, Button, Alert
 } from '@mui/material';
 import { urlMap } from '../dataStore';
 import { generateShortCode, isValidURL, isAlphanumeric } from '../utils/helpers';
-import logger from 'C:/Users/hs978/CodeSpace/AffordMed/url-shortener/src/middleware/logger.ts';
+import { logger } from '../middleware/logger';
 
 type InputRow = {
   longURL: string;
@@ -69,22 +69,20 @@ export default function Home() {
   return (
     <Box sx={{ p: 4 }}>
       <Typography variant="h4" gutterBottom>URL Shortener</Typography>
-      <Grid container spacing={3}>
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
         {rows.map((row, i) => (
-          <Grid item xs={12} key={i}>
+          <Box key={i} sx={{ display: 'flex', flexDirection: 'column', gap: 1, p: 2, border: '1px solid #ddd', borderRadius: 1 }}>
             <TextField
               fullWidth
               label="Long URL"
               value={row.longURL}
               onChange={(e) => updateRow(i, 'longURL', e.target.value)}
-              sx={{ mb: 1 }}
             />
             <TextField
               fullWidth
               label="Custom Code (optional)"
               value={row.customCode}
               onChange={(e) => updateRow(i, 'customCode', e.target.value)}
-              sx={{ mb: 1 }}
             />
             <TextField
               fullWidth
@@ -92,15 +90,14 @@ export default function Home() {
               type="number"
               value={row.validity}
               onChange={(e) => updateRow(i, 'validity', e.target.value)}
-              sx={{ mb: 1 }}
             />
             <Button variant="contained" onClick={() => handleShorten(i)}>Shorten</Button>
 
-            {row.message && <Alert severity="success" sx={{ mt: 1 }}>{row.message}</Alert>}
-            {row.error && <Alert severity="error" sx={{ mt: 1 }}>{row.error}</Alert>}
-          </Grid>
+            {row.message && <Alert severity="success">{row.message}</Alert>}
+            {row.error && <Alert severity="error">{row.error}</Alert>}
+          </Box>
         ))}
-      </Grid>
+      </Box>
     </Box>
   );
 }
